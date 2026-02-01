@@ -1,10 +1,6 @@
-from django.shortcuts import render
-from bookshelf.models import Book  
-from .models import Library
+from django.shortcuts import render, get_object_or_404
+from .models import Library 
 
-def list_books(request):
-    # Query all books
-    books = Book.objects.all()
-    
-    # Render the required template
-    return render(request, "relationship_app/list_books.html", {"books": books})
+def library_detail(request, pk):
+    library = get_object_or_404(Library, pk=pk)  # 👈 variable 'library'
+    return render(request, "relationship_app/library_detail.html", {"library": library})
