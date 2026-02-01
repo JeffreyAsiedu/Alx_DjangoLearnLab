@@ -41,6 +41,21 @@ INSTALLED_APPS = [
     "relationship_app",
 ]
 
+# Security Settings
+
+# Prevent browser-based XSS attacks
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent MIME-type sniffing
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Prevent clickjacking
+X_FRAME_OPTIONS = "DENY"
+
+# Secure cookies (recommended for production)
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
