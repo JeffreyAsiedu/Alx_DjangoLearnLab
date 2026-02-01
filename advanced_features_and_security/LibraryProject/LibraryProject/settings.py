@@ -47,6 +47,11 @@ SESSION_COOKIE_SECURE = True
 # Force HTTPS for all requests
 SECURE_SSL_REDIRECT = True
 
+# HTTP Strict Transport Security
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
