@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from bookshelf.models import Book  # Import Book from bookshelf app
+from bookshelf.models import Book  
+from .models import Library
 
 def list_books(request):
     # Query all books
