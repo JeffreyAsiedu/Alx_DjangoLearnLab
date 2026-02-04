@@ -17,14 +17,25 @@ def library_detail(request, pk):
     library = get_object_or_404(Library, pk=pk)
     return render(request, "relationship_app/library_detail.html", {"library": library})
 
-# User registration view
+# Login view
+class CustomLoginView(LoginView):
+    template_name = 'relationship_app/login.html'
+
+
+# Logout view
+class CustomLogoutView(LogoutView):
+    template_name = 'relationship_app/logout.html'
+
+
+# Registration view
 def register(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect("list_books")
+            login(request, user) 
+            return redirect('/')
     else:
         form = UserCreationForm()
-    return render(request, "relationship_app/register.html", {"form": form})
+
+    return render(request, 'relationship_app/register.html', {'form': form})
