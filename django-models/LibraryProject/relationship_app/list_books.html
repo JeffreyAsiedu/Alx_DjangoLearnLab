@@ -1,9 +1,0 @@
-from django.shortcuts import render
-from bookshelf.models import Book
-
-def list_books(request):
-    # Query all books
-    books = Book.objects.all()
-    
-    # Render template
-    return render(request, "relationship_app/list_books.html", {"books": books})
