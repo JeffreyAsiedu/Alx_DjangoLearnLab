@@ -4,6 +4,7 @@ from bookshelf.models import Book
 from .models import Library
 from django.contrib.auth.decorators import user_passes_test
 from .forms import BookForm
+from django.contrib.auth.decorators import permission_required
 
 # Authentication imports
 from django.contrib.auth import login
