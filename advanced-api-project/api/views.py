@@ -7,12 +7,36 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 class BookListView(generics.ListAPIView):
     """
     ListAPIView for retrieving all Book instances.
-    Read-only access is allowed for all users.
+
+    Features:
+    - Filtering by title, publication_year, and author
+    - Searching by title and author name
+    - Ordering by title and publication_year
+
+    Access:
+    - Public (no authentication required)
     """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.AllowAny]
 
+    # Enable filtering, searching, and ordering
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+
+    # Filtering options
+    filterset_fields = ['title', 'publication_year', 'author']
+
+    # Search options
+    search_fields = ['title', 'author__name']
+
+    # Ordering options
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']
+    
 # Allows anyone to retrieve a single book by ID
 class BookDetailView(generics.RetrieveAPIView):
     """
