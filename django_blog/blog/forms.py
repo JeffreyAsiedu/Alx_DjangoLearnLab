@@ -1,16 +1,30 @@
 from django import forms
-from .models import Comment
-from .models import Post
-from taggit.forms import TagWidget
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from .models import Post, Comment
+from taggit.forms import TagWidget  # <-- TagWidget import for Task 4
 
-class CommentForm(forms.ModelForm):
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+        'placeholder': 'Enter your email',
+        'class': 'form-control'
+    }))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Enter username',
+        'class': 'form-control'
+    }))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Enter password',
+        'class': 'form-control'
+    }))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Confirm password',
+        'class': 'form-control'
+    }))
+
     class Meta:
-        model = Comment
-        fields = ['content']
-        widgets = {
-            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write your comment here...'})
-        }
-
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -29,9 +43,17 @@ class PostForm(forms.ModelForm):
             'tags': TagWidget(attrs={
                 'class': 'tag-input',
                 'placeholder': 'Add tags separated by commas'
-            }),  
+            }), 
         }
 
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ['title', 'content', 'tags']
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={
+                'rows': 3,
+                'placeholder': 'Write your comment here...',
+                'class': 'form-control'
+            }),
+        }
