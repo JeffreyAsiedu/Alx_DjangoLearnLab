@@ -1,6 +1,7 @@
 from django import forms
 from .models import Comment
-from .models import Post, Tag
+from .models import Post
+from taggit.forms import TagWidget
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -12,11 +13,12 @@ class CommentForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        required=False,
-        widget=forms.CheckboxSelectMultiple
-    )
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': TagWidget(attrs={'class': 'tag-input', 'placeholder': 'Add tags separated by commas'}),
+        }
 
     class Meta:
         model = Post
