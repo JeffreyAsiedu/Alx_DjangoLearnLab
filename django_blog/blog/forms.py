@@ -18,7 +18,9 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': TagWidget(attrs={'class': 'tag-input', 'placeholder': 'Add tags separated by commas'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Post title'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Write your post...'}),
+            'tags': TagWidget(attrs={'class': 'tag-input', 'placeholder': 'Add tags separated by commas'}),  # <-- supports adding new tags
         }
 
 # Comment form
