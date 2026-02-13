@@ -1,7 +1,14 @@
-from taggit.managers import TaggableManager
+from django import forms
+from .models import Post
+from taggit.forms import TagWidget
 
-class Post(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tags = TaggableManager() 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': TagWidget(attrs={
+                'class': 'tag-input',
+                'placeholder': 'Add tags separated by commas'
+            }),
+        }
