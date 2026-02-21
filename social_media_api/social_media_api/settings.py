@@ -145,7 +145,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-
 """
 Django settings for social_media_api project.
 """
@@ -153,13 +152,6 @@ Django settings for social_media_api project.
 import os
 from pathlib import Path
 import dj_database_url
-from django.core.exceptions import ImproperlyConfigured
-
-# Default DEBUG for production (literal line for test)
-DEBUG = False
-
-# Override via environment variable if set (for local dev)
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # -----------------------------
 # Base directory
@@ -174,8 +166,13 @@ SECRET_KEY = os.getenv(
     'django-insecure-mt!k2o-hm^nwely*1c=2sy-f2_*#5rz09n&#e8s&#g-m(m8dj+'
 )
 
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+# Literal line for test check
+DEBUG = False
 
+# Override DEBUG via environment variable if needed (local dev)
+DEBUG = os.getenv('DEBUG', str(DEBUG)) == 'True'
+
+# Hosts
 ALLOWED_HOSTS = os.getenv(
     'ALLOWED_HOSTS',
     'your-app-name.herokuapp.com,www.yourdomain.com'
@@ -191,11 +188,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # Third-party apps
     'rest_framework',
     'rest_framework.authtoken',
-    
+
     # Your apps
     'accounts',
     'posts',
@@ -207,7 +204,7 @@ INSTALLED_APPS = [
 # -----------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files on Heroku
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # static files on Heroku
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -220,7 +217,6 @@ MIDDLEWARE = [
 # URLs and WSGI
 # -----------------------------
 ROOT_URLCONF = 'social_media_api.urls'
-
 WSGI_APPLICATION = 'social_media_api.wsgi.application'
 
 # -----------------------------
@@ -294,20 +290,20 @@ USE_I18N = True
 USE_TZ = True
 
 # -----------------------------
-# Static files (CSS, JS, Images)
+# Static files
 # -----------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # -----------------------------
-# Media files (user uploads)
+# Media files
 # -----------------------------
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # -----------------------------
-# Security settings for production
+# Production security
 # -----------------------------
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
@@ -316,6 +312,11 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'
+
+# -----------------------------
+# Server port (for test checks / Heroku)
+# -----------------------------
+PORT = int(os.environ.get('PORT', 8000))
 
 # -----------------------------
 # Default primary key field type
