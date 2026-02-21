@@ -74,17 +74,13 @@ class LikePostView(APIView):
 
 
 class UnlikePostView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        try:
-            post = Post.objects.get(pk=pk)
-        except Post.DoesNotExist:
-            return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+        post = generics.get_object_or_404(Post, pk=pk)
 
-        try:
-            like = Like.objects.get(user=request.user, post=post)
+        like = Like.objects.filter(user=request.user, post=post).first()
+        if like:
             like.delete()
             return Response({"message": "Post unliked"}, status=status.HTTP_200_OK)
-        except Like.DoesNotExist:
-            return Response({"error": "You haven't liked this post"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "You haven't liked this post"}, status=status.HTTP_400_BAD_REQUEST)
