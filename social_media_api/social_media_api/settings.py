@@ -155,6 +155,12 @@ from pathlib import Path
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
+# Default DEBUG for production (literal line for test)
+DEBUG = False
+
+# Override via environment variable if set (for local dev)
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
 # -----------------------------
 # Base directory
 # -----------------------------
